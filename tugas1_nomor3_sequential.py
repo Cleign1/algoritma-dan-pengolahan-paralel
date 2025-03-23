@@ -1,25 +1,40 @@
 # program sederhana untuk menghitung bilangan prima dari 0 sampai minimum 100, menggunakan metode sequential
-import time
 
 # fungsi untuk mengecek bilangan prima dari input n
 def bilangan_prima(n):
-    if n < 2:
+    if n <= 1:
         return False
-    for i in range(2, n):
-        if n % i == 0:
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
             return False
+        i += 6
     return True
 
-if __name__ == '__main__':
-    time_start = time.time()
-    number =int(input("Masukkan angka: "))
-    for i in range(number):
-        if bilangan_prima(i):
-            print(i)
-            
-    time_end = time.time()
-    time_total = time_end - time_start
-    print(f"Waktu eksekusi program adalah {time_total:.2f} detik")
+def limit_prima_sequential(limit):
+    primes = []
+    for num in range(2, limit + 1):
+        if bilangan_prima(num):
+            primes.append(num)
+    return primes
+
+if __name__ == "__main__":
+    import time
     
-## benchmark dari program ini untuk mencari bilangan prima dari 0 sampai 50,000 adalah 16.29 detik
+    limit = int(input("Masukkan angka: "))
+    
+    start_time = time.time()
+    primes = limit_prima_sequential(limit)
+    end_time = time.time()
+    
+    print(f"Ditemukan {len(primes)} Bilangan Prima Sampai {limit}")
+    print(f"Awal Bilangan Prima: {primes[:10]}...")
+    print(f"Bilangan Prima Akhir: ...{primes[-10:]}")
+    print(f"Waktu Eksekusi Sequential: {end_time - start_time:.4f} Detik")
+    
+## benchmark dari program ini untuk mencari bilangan prima dari 0 sampai 10.000.000 adalah 63.2983 detik
 ## ini dilakukan dengan prosesor Intel Core i7-8750h dengan RAM 16GB menggunakan metode sequential
