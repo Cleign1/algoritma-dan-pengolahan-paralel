@@ -1,5 +1,6 @@
 import multiprocessing
 import time
+import sys
 
 def bilangan_prima(n):
     if n <= 1:
@@ -39,7 +40,7 @@ def temukan_prima_paralel(limit, num_processes=None):
 if __name__ == "__main__":
     limit = int(input("Masukkan angka: "))
     
-    num_processes = int(sys.argv[2]) if len(sys.argv) > 2 else None
+    num_processes = int(multiprocessing.cpu_count())
     
     start_time = time.time()
     primes = temukan_prima_paralel(limit, num_processes)
