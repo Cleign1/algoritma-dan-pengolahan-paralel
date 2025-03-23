@@ -1,6 +1,5 @@
 import multiprocessing
 import time
-import sys
 
 def bilangan_prima(n):
     if n <= 1:
@@ -24,17 +23,13 @@ def temukan_prima_paralel(limit, num_processes=None):
     if num_processes is None:
         num_processes = multiprocessing.cpu_count()
     
-    # Split the work into chunks
     chunk_size = (limit - 1) // num_processes + 1
     ranges = [(max(2, i * chunk_size), min(limit, (i + 1) * chunk_size - 1)) 
               for i in range(num_processes)]
     
-    # Create a pool of worker processes
     with multiprocessing.Pool(processes=num_processes) as pool:
-        # Map the work to the processes
         results = pool.starmap(bilangan_prima_di_range, ranges)
     
-    # Combine the results from all processes
     all_primes = []
     for result in results:
         all_primes.extend(result)
@@ -42,10 +37,8 @@ def temukan_prima_paralel(limit, num_processes=None):
     return sorted(all_primes)
 
 if __name__ == "__main__":
-    # Get the limit from command line argument or use default
     limit = int(input("Masukkan angka: "))
     
-    # Get number of processes to use (optional)
     num_processes = int(sys.argv[2]) if len(sys.argv) > 2 else None
     
     start_time = time.time()
